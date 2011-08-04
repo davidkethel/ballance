@@ -1,0 +1,45 @@
+body
+{
+    font-size: .85em;
+    font-family: "Trebuchet MS", Verdana, Helvetica, Sans-Serif;
+    color: #232323;
+    background-color: #fff;
+}
+
+header,
+footer,
+nav,
+section {
+    display: block;
+}
+
+/* Styles for basic forms
+-----------------------------------------------------------*/
+
+fieldset 
+{
+    border:1px solid #ddd;
+    padding:0 1.4em 1.4em 1.4em;
+    margin:0 0 1.5em 0;
+}
+
+
+
+
+/* Styles for Data Table Layout
+-----------------------------------------------------------*/
+table, th, td
+{
+    border-collapse :collapse;
+    border-bottom: 1px solid #3e576f;
+    
+}
+
+td
+{
+    padding-left : 20px;
+    padding-right : 20px;
+    padding-top : 5px;
+    padding-bottom : 5px;
+}
+
