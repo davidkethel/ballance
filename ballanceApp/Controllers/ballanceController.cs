@@ -21,8 +21,13 @@ namespace ballanceApp.Controllers
             makeUpToDate();
 
             int StartDate = 15;
-            decimal payPerMonth = 3000.00M;
-            int daysInMonth = 31;
+            decimal payPerMonth = 4303.00M;
+
+            // work out the days in the cuurent month.
+            var daysInMonth = 0;
+            var StartMonthOfPeriod = DateTime.Now.Day >= StartDate ? DateTime.Now.Month : DateTime.Now.AddMonths(-1).Month;
+            daysInMonth = DateTime.DaysInMonth(DateTime.Now.Year, StartMonthOfPeriod);
+
 
             var ballList = db.ballances.ToList().OrderBy(p => p.Date).Where(p => p.Date >= DateTime.Now.AddMonths(-1)).ToList();
 
@@ -36,11 +41,11 @@ namespace ballanceApp.Controllers
 
                 ball.daysSinceStart = numberOfDaysSinceStart;
 
-                ball.idealBallance = payPerMonth -(  idealAmountPerDay * numberOfDaysSinceStart);
+                ball.idealBallance = payPerMonth - (idealAmountPerDay * numberOfDaysSinceStart);
 
                 if (ball.Amount.HasValue)
                 {
-                    ball.Difference =   ball.Amount.Value  - ball.idealBallance ;
+                    ball.Difference = ball.Amount.Value - ball.idealBallance;
                 }
             }
 
