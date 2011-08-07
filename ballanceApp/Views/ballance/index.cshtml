@@ -1,133 +1,148 @@
 ﻿@model IEnumerable<ballanceApp.Models.ballance>
 @{ ViewBag.Title = "Hello";}
-
 <script type="text/javascript">
-var chart;
-$(document).ready(function () {
-    // chart = new Highcharts.Chart({
+    var chart;
+    $(document).ready(function () {
+        // chart = new Highcharts.Chart({
 
-    options = {
-        chart: {
-            renderTo: 'container',
-            defaultSeriesType: 'line',
-            marginRight:45,
-            marginBottom: 45
-        },
-        credits: {
-            enabled: false
-        },
-        title: {
-            text: 'Monthly Ballance',
-            x: -20 //center
-        },
-        xAxis: {},
-        yAxis: {
-            title: {
-                text: 'Amount'
+        options = {
+            chart: {
+                renderTo: 'container',
+                defaultSeriesType: 'line',
+                marginRight: 45,
+                marginBottom: 45
             },
-            plotLines: [{
-                value: 0,
-                width: 1,
-                color: '#808080'
-            }]
-        },
-        tooltip: {
-            formatter: function () {
-                return '<b>' + this.series.name + '</b><br/>' +
+            credits: {
+                enabled: false
+            },
+            title: {
+                text: 'Monthly Ballance',
+                x: -20 //center
+            },
+            xAxis: {},
+            yAxis: {
+                title: {
+                    text: 'Amount'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                formatter: function () {
+                    return '<b>' + this.series.name + '</b><br/>' +
                this.x + ': ' + '$' + this.y;
+                }
+            },
+            legend: {
+                layout: 'vertical',
+                verticalAlign: 'top',
+                x: -20,
+                y: 10,
+                borderWidth: 0
             }
-        },
-        legend: {
-            layout: 'vertical',
-            verticalAlign: 'top',
-            x: -20,
-            y: 10,
-            borderWidth: 0
-        }
-    };
+        };
 
-    // x axis data from the data coloumn
-    options.xAxis.categories = [];
-    $("td.daysSinceStart").each(function (i) {
-        options.xAxis.categories.push(this.innerHTML);
+        // x axis data from the data coloumn
+        options.xAxis.categories = [];
+        $("td.daysSinceStart").each(function (i) {
+            options.xAxis.categories.push(this.innerHTML);
+        });
+
+
+        // get the series data for the difference from the table
+        options.series = [];
+        options.series[0] = {
+            name: "Differece",
+            data: []
+        };
+
+        $("td.difference").each(function (j) {
+            options.series[0].data.push(stringToNumber(this.innerHTML));
+        });
+
+
+        // get the series data for the ideal Ballance from the table
+        options.series[1] = {
+            name: "Ideal Ballance",
+            data: []
+        };
+
+        $("td.ideal").each(function (j) {
+            options.series[1].data.push(stringToNumber(this.innerHTML));
+        });
+
+
+        // get the series data for the actual Ballance from the table
+        options.series[2] = {
+            name: "Actual Ballance",
+            data: []
+        };
+
+        $("td.actualBallance").each(function (j) {
+            options.series[2].data.push(stringToNumber(this.innerHTML));
+        });
+
+
+
+
+        chart = new Highcharts.Chart(options);
     });
 
+    function stringToNumber(string) {
 
-    // get the series data for the difference from the table
-    options.series = [];
-    options.series[0] = {
-        name: "Differece",
-        data: []
-    };
+        var indexOfDollar = string.indexOf('$');
+        var indexOfPoint = string.indexOf('.');
+        string = string.replace(",", "");
 
-    $("td.difference").each(function (j) {
-        options.series[0].data.push(stringToNumber(this.innerHTML));
-    });
+        string = string.substring(indexOfDollar + 1, indexOfPoint + 2);
 
-
-    // get the series data for the ideal Ballance from the table
-    options.series[1] = {
-        name:"Ideal Ballance",
-        data:[]
-    };
-
-    $("td.ideal").each(function(j){
-        options.series[1].data.push(stringToNumber(this.innerHTML));
-    });
-
-
-    // get the series data for the actual Ballance from the table
-    options.series[2] = {
-        name: "Actual Ballance",
-        data: []
-    };
-
-    $("td.actualBallance").each(function (j) {
-        options.series[2].data.push(stringToNumber(this.innerHTML));
-    });
-
-
-
-
-chart = new Highcharts.Chart(options);
-});
-
-function stringToNumber(string) {
-
-    var indexOfDollar = string.indexOf('$');
-    var indexOfPoint = string.indexOf('.');
-    string = string.replace(",", "");
-
-    string = string.substring(indexOfDollar + 1, indexOfPoint + 2);
-
-    return parseFloat(string);
-}
-</script>
-
-<div style=" border-left: 1px solid black;  border-right: 1px solid black; margin: 0 auto; width: 800px;">
-
-<div id="container" style="width: 800px; height: 400px">
-</div>
-<table style="width:100%">
-    @foreach (var item in Model)
-    {
-  <tr>
-            <td>
-                @Html.ActionLink(item.Date.ToString("d"), "Edit", new { id = item.Id })
-            </td>
-              <td class="daysSinceStart">
-                @item.daysSinceStart
-            </td>
-            <td class="actualBallance">
-                @(item.Amount.HasValue ? item.Amount.Value.ToString("C") : "0")
-            </td>
-            <td class="difference">
-                @item.Difference.ToString("C")
-            </td>
-            <td class="ideal">
-                @item.idealBallance.ToString("C")
-            </td>
-        </tr>
+        return parseFloat(string);
     }
-</table>
+</script>
+<div style="border-left: 1px solid black; border-right: 1px solid black; margin: 0 auto;
+    width: 800px;">
+    <div id="container" style="width: 800px; height: 400px">
+    </div>
+    <table style="width: 100%">
+        <tr>
+            <th>
+                Date:
+            </th>
+            <th>
+                Days Since Start of Period:
+            </th>
+            <th>
+                Actual:
+            </th>
+            <th>
+                Difference:
+            </th>
+            <th>
+                Ideal:
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(item.Date.ToString("d"), "Edit", new { id = item.Id })
+                </td>
+                <td class="daysSinceStart">
+                    @item.daysSinceStart
+                </td>
+                <td class="actualBallance">
+                    @(item.Amount.HasValue ? item.Amount.Value.ToString("C") : "0")
+                </td>
+                <td class="difference">
+                    @item.Difference.ToString("C")
+                </td>
+                <td class="ideal">
+                    @item.idealBallance.ToString("C")
+                </td>
+            </tr>
+        }
+    </table>
 </div>
