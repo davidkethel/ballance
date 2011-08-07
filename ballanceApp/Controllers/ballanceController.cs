@@ -24,13 +24,8 @@ namespace ballanceApp.Controllers
             decimal payPerMonth = 3000.00M;
             int daysInMonth = 31;
 
-
             var ballList = db.ballances.ToList().OrderBy(p => p.Date).Where(p => p.Date >= DateTime.Now.AddMonths(-1)).ToList();
 
-            //calculate the diffenences
-
-            
-            
             // TODO: months could be 30,31,29 or 28 days.
             decimal idealAmountPerDay = payPerMonth / daysInMonth;
 

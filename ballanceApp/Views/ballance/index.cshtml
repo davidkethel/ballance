@@ -108,11 +108,12 @@ function stringToNumber(string) {
 
 <div id="container" style="width: 800px; height: 400px">
 </div>
+
+Changes
 <table style="width:100%">
     @foreach (var item in Model)
     {
- 
-        <tr>
+  <tr>
             <td>
                 @Html.ActionLink(item.Date.ToString("d"), "Edit", new { id = item.Id })
             </td>
