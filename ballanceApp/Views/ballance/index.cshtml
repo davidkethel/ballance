@@ -7,7 +7,7 @@
 
         options = {
             chart: {
-                renderTo: 'container',
+                renderTo: 'graph',
                 defaultSeriesType: 'line',
                 marginRight: 45,
                 marginBottom: 45
@@ -102,11 +102,10 @@
         return parseFloat(string);
     }
 </script>
-<div style="border-left: 1px solid black; border-right: 1px solid black; margin: 0 auto;
-    width: 800px;">
-    <div id="container" style="width: 800px; height: 400px">
+<div class="container" >
+    <div id="graph" >
     </div>
-    <table style="width: 100%">
+    <table >
         <tr>
             <th>
                 Date:
@@ -117,10 +116,10 @@
             <th>
                 Actual:
             </th>
-            <th>
+            <th class="difference">
                 Difference:
             </th>
-            <th>
+            <th class="ideal">
                 Ideal:
             </th>
         </tr>
