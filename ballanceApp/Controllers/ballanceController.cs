@@ -31,19 +31,18 @@ namespace ballanceApp.Controllers
 
             var ballList = db.ballances.ToList().OrderBy(p => p.Date).Where(p => p.Date >= DateTime.Now.AddMonths(-1)).ToList();
 
-            // TODO: months could be 30,31,29 or 28 days.
             decimal idealAmountPerDay = payPerMonth / daysInMonth;
 
             foreach (var ball in ballList)
             {
-                // TODO: months could be 30,31,29 or 28 days. 
+                
                 var numberOfDaysSinceStart = ball.Date.Day > StartDate - 1 ? ball.Date.Day - StartDate + 1 : ball.Date.Day + (daysInMonth - StartDate + 1);
 
                 ball.daysSinceStart = numberOfDaysSinceStart;
 
                 ball.idealBallance = payPerMonth - (idealAmountPerDay * numberOfDaysSinceStart);
 
-                if (ball.Amount.HasValue)
+                if (ball.Amount != 0)
                 {
                     ball.Difference = ball.Amount.Value - ball.idealBallance;
                 }
@@ -79,7 +78,7 @@ namespace ballanceApp.Controllers
 
                     if (!containsRecord)
                     {
-                        db.ballances.AddObject(new ballance { Date = dateToCheck });
+                        db.ballances.AddObject(new ballance { Date = dateToCheck, Amount=0 });
                     }
                 }
                 db.SaveChanges();

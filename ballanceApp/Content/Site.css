@@ -1,18 +1,30 @@
-header,
-footer,
-nav,
-section {
+header, footer, nav, section
+{
     display: block;
+}
+
+div.container
+{
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    margin: 0 auto;
+    width: 800px;
+}
+
+div.graph
+{
+    width: 800px;
+    height: 400px;
 }
 
 /* Styles for basic forms
 -----------------------------------------------------------*/
 
-fieldset 
+fieldset
 {
-    border:1px solid #ddd;
-    padding:0 1.4em 1.4em 1.4em;
-    margin:0 0 1.5em 0;
+    border: 1px solid #ddd;
+    padding: 0 1.4em 1.4em 1.4em;
+    margin: 0 0 1.5em 0;
 }
 
 
@@ -22,16 +34,16 @@ fieldset
 -----------------------------------------------------------*/
 table, th, td
 {
-    border-collapse :collapse;
+    width: 100%;
+    border-collapse: collapse;
     border-bottom: 1px solid #3e576f;
-    
 }
 
 td
 {
-    padding-left : 20px;
-    padding-right : 20px;
-    padding-top : 5px;
-    padding-bottom : 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 

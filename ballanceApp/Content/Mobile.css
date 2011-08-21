@@ -1,4 +1,21 @@
-﻿body 
+﻿
+
+td.ideal, th.ideal, td.difference, th.difference, td.daysSinceStart, th.daysSinceStart
 {
-    
+    display: none;
+}
+
+
+
+
+div.container
+{
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    width: 100%;
+}
+
+div.graph
+{
+    height: 100px;
 }
