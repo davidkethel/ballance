@@ -3,9 +3,23 @@
 <script type="text/javascript">
     var chart;
     $(document).ready(function () {
-        // chart = new Highcharts.Chart({
 
-        options = {
+
+        if ((navigator.userAgent.match(/iphone/i)) || (navigator.userAgent.match(/ipod/i))) {
+            var options = getIphoneGraphOptions();
+        }
+        else {
+
+            var options = getDesktopGraphOptions();
+        }
+
+
+        chart = new Highcharts.Chart(options);
+    });
+
+
+    function getDesktopGraphOptions() {
+        options =  {
             chart: {
                 renderTo: 'graph',
                 defaultSeriesType: 'line',
@@ -85,11 +99,77 @@
             options.series[2].data.push(stringToNumber(this.innerHTML));
         });
 
+        return options;
+
+    }
+
+    function getIphoneGraphOptions() {
+        options = {
+            chart: {
+                renderTo: 'graph',
+                defaultSeriesType: 'line',
+                marginRight: 45,
+                marginLeft: 0
+            },
+            credits: {
+                enabled: false
+            },
+            title: {
+                text: 'Monthly Ballance',
+                x: -20 //center
+            },
+            xAxis: {},
+            yAxis: {},
+            tooltip: { enabled: false},
+            legend: {enabled : false}
+        };
+
+        // x axis data from the data coloumn
+        options.xAxis.categories = [];
+        $("td.daysSinceStart").each(function (i) {
+            options.xAxis.categories.push(this.innerHTML);
+        });
+
+
+        // get the series data for the difference from the table
+        options.series = [];
+        options.series[0] = {
+            name: "Difference",
+            data: []
+        };
+
+        $("td.difference").each(function (j) {
+            options.series[0].data.push(stringToNumber(this.innerHTML));
+        });
+
+
+        // get the series data for the ideal Ballance from the table
+        options.series[1] = {
+            name: "Ideal Ballance",
+            data: []
+        };
+
+        $("td.ideal").each(function (j) {
+            options.series[1].data.push(stringToNumber(this.innerHTML));
+        });
+
+
+        // get the series data for the actual Ballance from the table
+        options.series[2] = {
+            name: "Actual Ballance",
+            data: []
+        };
+
+        $("td.actualBallance").each(function (j) {
+            options.series[2].data.push(stringToNumber(this.innerHTML));
+        });
+
+        return options;
+
+    }
 
 
 
-        chart = new Highcharts.Chart(options);
-    });
 
     function stringToNumber(string) {
 
@@ -102,17 +182,19 @@
         return parseFloat(string);
     }
 </script>
-<div class="container" >
-    <div id="graph" >
+<div class="container">
+    <div id="graph">
     </div>
-    <table >
+    <table>
         <tr>
-            <th>
+            
+            <th class="daysSinceStart">
+                Days 
+            </th>
+            <th style="width : 25%">
                 Date:
             </th>
-            <th class="daysSinceStart">
-                Days Since Start of Period:
-            </th>
+            
             <th>
                 Actual:
             </th>
@@ -126,12 +208,13 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>
-                    @Html.ActionLink(item.Date.ToString("d"), "Edit", new { id = item.Id })
-                </td>
-                <td class="daysSinceStart">
+            <td class="daysSinceStart">
                     @item.daysSinceStart
                 </td>
+                <td >
+                    @Html.ActionLink(item.Date.ToString("d"), "Edit", new { id = item.Id })
+                </td>
+                
                 <td class="actualBallance">
                     @(item.Amount.HasValue ? item.Amount.Value.ToString("C") : "0")
                 </td>
