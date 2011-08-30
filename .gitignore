@@ -3,3 +3,4 @@
 *.suo
 *.user
 ballanceApp/web.config
+*Publish.xml
